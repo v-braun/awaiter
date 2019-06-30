@@ -16,11 +16,11 @@ type Awaiter interface {
 	// are finished (same as WaitGroup.Wait)
 	AwaitSync()
 
-	// Go executes "impl" in a go routine and increments
+	// Go executes "impl" in a goroutine and increments
 	// the internal WaitGroup counter by one
 	Go(impl func())
 
-	// Cancel signals the executed go routines to cancel
+	// Cancel signals the executed goroutines to cancel
 	// their execution.
 	// After Cancel was called, IsCancelRequested returns true and the channel
 	// returned by CancelRequested is closed

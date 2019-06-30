@@ -1,5 +1,5 @@
 # awaiter
-> WaitGroup like module to await go routines
+> WaitGroup like module to await goroutines
 
 By [v-braun - viktor-braun.de](https://viktor-braun.de).
 
@@ -9,32 +9,69 @@ By [v-braun - viktor-braun.de](https://viktor-braun.de).
 ![PR welcome](https://img.shields.io/badge/PR-welcome-green.svg?style=flat-square)
 
 <p align="center">
-<img width="70%" src="https://via.placeholder.com/800x480.png?text=this%20is%20a%20placeholder%20for%20the%20project%20banner" />
+<img width="70%" src="./logo.svg" />
 </p>
 
 
 ## Description
 
+Awaiter is similar to a WaitGroup but simplifies the resource handling.  
+
+*change this:*
+
+``` go
+	wg := new(sync.WaitGroup)
+
+	counter := 0
+
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		time.Sleep(time.Second * 1)
+		counter += 1
+	}()
+
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		time.Sleep(time.Second * 1)
+		counter += 1
+	}()
+
+	wg.Wait()
+
+	fmt.Printf("counter: %d", counter)
+	// Output: counter: 2
+``` 
+
+
+*to this:*
+
+``` go
+	awaiter := awaiter.New()
+
+	counter := 0
+
+	awaiter.Go(func() {
+		time.Sleep(time.Second * 1)
+		counter += 1
+	})
+
+	awaiter.Go(func() {
+		time.Sleep(time.Second * 1)
+		counter += 1
+	})
+
+	awaiter.AwaitSync()
+
+	fmt.Printf("counter: %d", counter)
+	// Output: counter: 2
+``` 
 
 ## Installation
 ```sh
 go get github.com/v-braun/awaiter
 ```
-
-
-
-## Usage
-
-```
-use awaiter
-```
-
-## Configuration
-
-```
-configure awaiter
-```
-
 
 
 ## Authors
