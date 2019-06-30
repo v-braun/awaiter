@@ -68,6 +68,9 @@ fmt.Printf("counter: %d", counter)
 // Output: counter: 2
 ``` 
 
+See more [examples here](https://github.com/v-braun/awaiter/blob/master/example_test.go)
+
+
 ## Installation
 ```sh
 go get github.com/v-braun/awaiter
