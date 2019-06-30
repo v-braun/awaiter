@@ -20,52 +20,52 @@ Awaiter is similar to a WaitGroup but simplifies the resource handling.
 *change this:*
 
 ``` go
-	wg := new(sync.WaitGroup)
+wg := new(sync.WaitGroup)
 
-	counter := 0
+counter := 0
 
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		time.Sleep(time.Second * 1)
-		counter += 1
-	}()
+wg.Add(1)
+go func() {
+    defer wg.Done()
+    time.Sleep(time.Second * 1)
+    counter += 1
+}()
 
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		time.Sleep(time.Second * 1)
-		counter += 1
-	}()
+wg.Add(1)
+go func() {
+    defer wg.Done()
+    time.Sleep(time.Second * 1)
+    counter += 1
+}()
 
-	wg.Wait()
+wg.Wait()
 
-	fmt.Printf("counter: %d", counter)
-	// Output: counter: 2
+fmt.Printf("counter: %d", counter)
+// Output: counter: 2
 ``` 
 
 
 *to this:*
 
 ``` go
-	awaiter := awaiter.New()
+awaiter := awaiter.New()
 
-	counter := 0
+counter := 0
 
-	awaiter.Go(func() {
-		time.Sleep(time.Second * 1)
-		counter += 1
-	})
+awaiter.Go(func() {
+    time.Sleep(time.Second * 1)
+    counter += 1
+})
 
-	awaiter.Go(func() {
-		time.Sleep(time.Second * 1)
-		counter += 1
-	})
+awaiter.Go(func() {
+    time.Sleep(time.Second * 1)
+    counter += 1
+})
 
-	awaiter.AwaitSync()
+awaiter.AwaitSync()
 
-	fmt.Printf("counter: %d", counter)
-	// Output: counter: 2
+fmt.Printf("counter: %d", counter)
+// Output: counter: 2
 ``` 
 
 ## Installation
