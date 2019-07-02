@@ -7,6 +7,7 @@ import (
 type awaiter struct {
 	wg     *sync.WaitGroup
 	cancel chan interface{}
+	locker *sync.Mutex
 }
 
 // Awaiter is similar to a WaitGroup but simplifies
@@ -39,6 +40,7 @@ func New() Awaiter {
 	a := new(awaiter)
 	a.cancel = make(chan interface{})
 	a.wg = new(sync.WaitGroup)
+	a.locker = new(sync.Mutex)
 	return a
 }
 
@@ -55,6 +57,9 @@ func (a *awaiter) AwaitSync() {
 }
 
 func (a *awaiter) Cancel() {
+	a.locker.Lock()
+	defer a.locker.Unlock()
+
 	select {
 	case <-a.cancel:
 		return
